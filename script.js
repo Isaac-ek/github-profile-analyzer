@@ -16,12 +16,15 @@ usernameInput.addEventListener('keydown', (event) => {
 });
 
 async function handleAnalyze() {
-  const username = usernameInput.value.trim();
+  const rawInput = usernameInput.value.trim();
+  const username = extractUsername(rawInput);
 
   if (!username) {
-    showError('Enter a GitHub username to analyze.');
+    showError('Enter a GitHub username or paste a valid GitHub profile link.');
     return;
   }
+
+  usernameInput.value = username;
 
   setLoading(true);
   clearMessages();
@@ -57,6 +60,51 @@ async function fetchGitHubJson(path) {
   }
 
   return response.json();
+}
+
+function extractUsername(input) {
+  if (!input) {
+    return '';
+  }
+
+  const normalizedInput = input.trim().replace(/^@/, '');
+
+  if (!normalizedInput) {
+    return '';
+  }
+
+  if (!normalizedInput.includes('/')) {
+    return isLikelyUsername(normalizedInput) ? normalizedInput : '';
+  }
+
+  try {
+    const candidateUrl = normalizedInput.startsWith('http')
+      ? new URL(normalizedInput)
+      : new URL(`https://${normalizedInput}`);
+
+    const hostname = candidateUrl.hostname.replace(/^www\./, '').toLowerCase();
+
+    if (hostname !== 'github.com') {
+      return '';
+    }
+
+    const pathSegments = candidateUrl.pathname
+      .split('/')
+      .map((segment) => segment.trim())
+      .filter(Boolean);
+
+    if (pathSegments.length !== 1) {
+      return '';
+    }
+
+    return isLikelyUsername(pathSegments[0]) ? pathSegments[0] : '';
+  } catch {
+    return '';
+  }
+}
+
+function isLikelyUsername(value) {
+  return /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(value);
 }
 
 function renderResults(profile, repos, events) {
@@ -293,6 +341,14 @@ function createStatCard(value, label) {
 function createPillLink(url, label) {
   return `
     <a class="pill-link" href="${url}" target="_blank" rel="noopener noreferrer">
+      ${escapeHtml(label)}
+    </a>
+  `;
+}
+
+function createLink(url, label) {
+  return `
+    <a href="${url}" target="_blank" rel="noopener noreferrer">
       ${escapeHtml(label)}
     </a>
   `;
