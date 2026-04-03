@@ -1,74 +1,48 @@
 # GitHub Profile Analyzer
 
-GitHub Profile Analyzer is a web application that allows users to analyze GitHub profiles. The application retrieves and displays user information, repositories, and recent activities of a specified GitHub user.
+GitHub Profile Analyzer is a lightweight front-end app for exploring GitHub users. It pulls public profile information from the GitHub API and presents a cleaner summary of a developer's account, repositories, language mix, and recent public activity.
 
 ## Features
 
-- **User Profile Information:** View basic details such as name, bio, avatar, and location.
-- **Public Repositories:** List all public repositories along with their descriptions, stars, and forks.
-- **Recent Activities:** Show recent activities of the user, including the type of activity and the timestamp.
+- View profile details including avatar, bio, company, location, and account age
+- See repository-level highlights such as stars, forks, issues, language, and recent updates
+- Get a quick language breakdown based on public repositories
+- Review recent public GitHub activity with working links back to the related repository or issue
+- Analyze a profile directly from the browser without storing tokens in the codebase
 
+## Project Structure
 
-
+- `index.html` contains the application shell
+- `style.css` defines the full visual design
+- `script.js` handles API requests, sorting, rendering, and state updates
 
 ## Getting Started
 
-### Prerequisites
-
-- A modern web browser (Chrome, Firefox, Edge, etc.)
-- A GitHub account to generate a personal access token
-
-### Setup
-
-1. **Clone the Repository:**
+1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
+   git clone https://github.com/Isaac-ek/github-profile-analyzer.git
    ```
 
-2. **Navigate to the Project Directory:**
+2. Move into the project:
 
    ```bash
-   cd your-repo-name
+   cd github-profile-analyzer
    ```
 
-3. **Update Your Token in `script.js`:**
-   - Open `script.js` in a text editor.
-   - Replace `'YOUR_GITHUB_TOKEN'` with your actual GitHub token:
-
-     ```javascript
-     const token = 'YOUR_GITHUB_TOKEN'; // Replace with your GitHub token
-     ```
-
-4. **Open `index.html` in Your Web Browser:**
-   - You can open the file directly in your browser or use a local server.
+3. Open `index.html` in a browser, or run any simple static file server.
 
 ## Usage
 
-1. Enter a GitHub username in the input field.
-2. Click the "Analyze" button.
-3. View the user profile information, repositories, and recent activities.
+1. Enter any public GitHub username.
+2. Click `Analyze Profile` or press `Enter`.
+3. Review the generated profile summary, repository insights, and recent activity.
+
+## Notes
+
+- This app uses GitHub's public API and may hit unauthenticated rate limits if used heavily.
+- No personal access token is required for the current version.
 
 ## Deployment
 
-This project can be deployed using GitHub Pages or other static site hosting services.
-
-### Deploying with GitHub Pages
-
-1. Go to your GitHub repository.
-2. Navigate to **Settings** > **Pages**.
-3. Choose the branch to deploy from (typically `main` or `master`).
-4. Click **Save**.
-
-## Contributing
-
-Contributions are welcome! If you have suggestions or improvements, please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-- Thanks to the GitHub API for providing the data.
-- Inspiration from various GitHub API examples and tutorials.
+Because the app is fully static, it can be deployed easily to Vercel, GitHub Pages, Netlify, or any static host.
